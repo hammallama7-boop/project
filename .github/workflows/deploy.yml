@@ -1,0 +1,61 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  detect:
+    name: Detect deployable artifact
+    runs-on: ubuntu-latest
+    outputs:
+      site: ${{ steps.detect.outputs.site }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: detect
+        run: |
+          if [ -f index.html ] || [ -f dist/index.html ] || [ -f public/index.html ]; then
+            echo "site=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "site=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  pages:
+    name: Deploy to GitHub Pages
+    needs: detect
+    if: needs.detect.outputs.site == 'true'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ vars.PAGES_DIR || 'dist' }}
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  placeholder:
+    name: No deploy target detected
+    needs: detect
+    if: needs.detect.outputs.site == 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "No deployable artifact found."
+          echo "Add index.html (static), dist/ build output, or replace this job"
+          echo "with your own deployment step (SSH, Docker push, cloud CLI, etc.)."
+          exit 1

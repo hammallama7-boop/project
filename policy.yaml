@@ -1,0 +1,30 @@
+on_http_request:
+  - expressions:
+      - 'req.url.path.startsWith("/.env") || req.url.path.startsWith("/.git") || req.url.path.startsWith("/wp-") || req.url.path.startsWith("/phpmyadmin") || req.url.path.startsWith("/.aws") || req.url.path.startsWith("/cgi-bin")'
+    actions:
+      - type: deny
+        config:
+          status_code: 404
+  - actions:
+      - type: rate-limit
+        config:
+          name: solo-dev-limit
+          algorithm: sliding_window
+          capacity: 120
+          rate: 60s
+          bucket_key:
+            - conn.client_ip
+  - actions:
+      - type: add-headers
+        config:
+          headers:
+            x-client-ip: "${conn.client_ip}"
+            x-tunnel: ngrok-local
+
+on_http_response:
+  - actions:
+      - type: add-headers
+        config:
+          headers:
+            x-content-type-options: nosniff
+            referrer-policy: no-referrer
