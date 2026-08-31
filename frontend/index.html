@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cookie Clicker</title>
+  <style>
+    body { text-align: center; }
+    #cookie { font-size: 24px; margin-top: 20px; }
+    .buyable {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="cookie">0 Cookies</h1>
+  <button id="clickMe" onclick="incrementCookie()">Click Me!</button>
+  <div class="buyable" id="grandmaDiv">
+    <p id="grandmaLabel">Buy a Grandma for $100 cookies:</p>
+    <button onclick="buyGrandma()">Grandma</button>
+  </div>
+  <h2 id="grandmaCount">0 Grandmas</h2>
+
+  <script>
+    let cookieCounter = 0;
+    let grandmas = 0;
+    let grandmaCost = 100;
+    const grandmaSoldCookiesPerSecond = 2;
+
+    function incrementCookie() {
+      cookieCounter += 1;
+      updateDisplay();
+    }
+
+    function buyGrandma() {
+      if (cookieCounter >= grandmaCost) {
+        cookieCounter -= grandmaCost;
+        grandmas += 1;
+        grandmaCost = Math.ceil(grandmaCost * 1.5);
+        updateDisplay();
+      }
+    }
+
+    function updateDisplay() {
+      document.getElementById('cookie').innerHTML = Math.floor(cookieCounter) + ' Cookies';
+      document.getElementById('grandmaLabel').innerHTML = 'Buy a Grandma for $' + grandmaCost + ' cookies:';
+      document.getElementById('grandmaCount').innerHTML =
+        grandmas + ' Grandma' + (grandmas === 1 ? '' : 's') + ' (producing ' +
+        (grandmas * grandmaSoldCookiesPerSecond) + ' cookies/sec)';
+    }
+
+    // Passive income: each grandma produces 2 cookies per second
+    setInterval(function () {
+      cookieCounter += grandmas * grandmaSoldCookiesPerSecond;
+      updateDisplay();
+    }, 1000);
+
+    updateDisplay();
+  </script>
+</body>
+</html>
