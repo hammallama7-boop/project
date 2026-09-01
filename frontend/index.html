@@ -1,59 +1,161 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Cookie Clicker</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pixelated Catworks</title>
   <style>
-    body { text-align: center; }
-    #cookie { font-size: 24px; margin-top: 20px; }
-    .buyable {
-      margin-top: 10px;
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f0f13;
+      color: #e8e8ec;
+      display: grid;
+      place-items: center;
     }
+    .card {
+      max-width: 420px;
+      width: 90%;
+      background: #17171c;
+      border: 1px solid #2a2a33;
+      border-radius: 14px;
+      padding: 28px;
+      text-align: center;
+    }
+    h1 { margin: 0 0 4px; font-size: 26px; }
+    .sub { color: #9a9aa5; margin: 0 0 20px; }
+    .cat { font-size: 48px; margin: 8px 0 16px; }
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #6d2bf0;
+      color: #fff;
+      margin-top: 8px;
+    }
+    button:hover { background: #7d3bfa; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .status {
+      margin-top: 16px;
+      font-size: 14px;
+      word-break: break-word;
+      min-height: 20px;
+      color: #9a9aa5;
+    }
+    .status.ok { color: #62e6a0; }
+    .status.err { color: #ff7b7b; }
+    .info { font-size: 12px; color: #6f6f7a; margin-top: 16px; line-height: 1.6; }
   </style>
 </head>
 <body>
-  <h1 id="cookie">0 Cookies</h1>
-  <button id="clickMe" onclick="incrementCookie()">Click Me!</button>
-  <div class="buyable" id="grandmaDiv">
-    <p id="grandmaLabel">Buy a Grandma for $100 cookies:</p>
-    <button onclick="buyGrandma()">Grandma</button>
+  <div class="card">
+    <h1>Pixelated Catworks</h1>
+    <p class="sub">Pixel Cats on Robinhood Chain testnet</p>
+    <div class="cat">🐱</div>
+    <p id="supply">Supply: -- / 777</p>
+    <button id="connectBtn">Connect Wallet</button>
+    <button id="mintBtn" disabled>Mint a Pixel Cat</button>
+    <p id="status" class="status"></p>
+    <p class="info">
+      Network: Robinhood Chain Testnet (Chain ID 46630)<br>
+      RPC: rpc.testnet.chain.robinhood.com
+    </p>
   </div>
-  <h2 id="grandmaCount">0 Grandmas</h2>
 
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
   <script>
-    let cookieCounter = 0;
-    let grandmas = 0;
-    let grandmaCost = 100;
-    const grandmaSoldCookiesPerSecond = 2;
+    const CONTRACT_ADDRESS = "YOUR_DEPLOYED_CONTRACT_ADDRESS";
+    // Must match the deployed contract ABI
+    const CONTRACT_ABI = [
+      "function mint(address to) public returns (uint256)",
+      "function MAX_SUPPLY() public view returns (uint256)",
+      "function totalSupply() public view returns (uint256)",
+      "function owner() public view returns (address)"
+    ];
 
-    function incrementCookie() {
-      cookieCounter += 1;
-      updateDisplay();
+    const TESTNET = {
+      chainId: 46630,
+      chainIdHex: "0xB626",
+      chainName: "Robinhood Chain Testnet",
+      rpcUrls: ["https://rpc.testnet.chain.robinhood.com"],
+      nativeCurrency: { name: "Test ETH", symbol: "ETH", decimals: 18 },
+      blockExplorerUrls: ["https://explorer.testnet.chain.robinhood.com"]
+    };
+
+    const statusEl = document.getElementById("status");
+    const connectBtn = document.getElementById("connectBtn");
+    const mintBtn = document.getElementById("mintBtn");
+    const supplyEl = document.getElementById("supply");
+
+    let signer = null;
+    let contract = null;
+
+    function setStatus(msg, type) {
+      statusEl.textContent = msg;
+      statusEl.className = "status" + (type ? " " + type : "");
     }
 
-    function buyGrandma() {
-      if (cookieCounter >= grandmaCost) {
-        cookieCounter -= grandmaCost;
-        grandmas += 1;
-        grandmaCost = Math.ceil(grandmaCost * 1.5);
-        updateDisplay();
+    async function switchToTestnet() {
+      if (!window.ethereum) throw new Error("No wallet detected (MetaMask or Robinhood Wallet required)");
+      try {
+        await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId: TESTNET.chainIdHex }] });
+      } catch (err) {
+        if (err.code === 4902) {
+          await window.ethereum.request({ method: "wallet_addEthereumChain", params: [TESTNET] });
+        } else {
+          throw err;
+        }
       }
     }
 
-    function updateDisplay() {
-      document.getElementById('cookie').innerHTML = Math.floor(cookieCounter) + ' Cookies';
-      document.getElementById('grandmaLabel').innerHTML = 'Buy a Grandma for $' + grandmaCost + ' cookies:';
-      document.getElementById('grandmaCount').innerHTML =
-        grandmas + ' Grandma' + (grandmas === 1 ? '' : 's') + ' (producing ' +
-        (grandmas * grandmaSoldCookiesPerSecond) + ' cookies/sec)';
-    }
+    connectBtn.addEventListener("click", async () => {
+      try {
+        await switchToTestnet();
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        signer = await provider.getSigner();
+        contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
 
-    // Passive income: each grandma produces 2 cookies per second
-    setInterval(function () {
-      cookieCounter += grandmas * grandmaSoldCookiesPerSecond;
-      updateDisplay();
-    }, 1000);
+        const network = await provider.getNetwork();
+        if (Number(network.chainId) !== TESTNET.chainId) {
+          throw new Error("Please switch to Robinhood Chain Testnet");
+        }
 
-    updateDisplay();
+        const address = await signer.getAddress();
+        setStatus("Connected: " + address.slice(0, 6) + "..." + address.slice(-4), "ok");
+        connectBtn.disabled = true;
+        mintBtn.disabled = false;
+
+        const supply = await contract.totalSupply();
+        supplyEl.textContent = "Minted: " + supply.toString() + " / 777";
+      } catch (err) {
+        setStatus(err.message || String(err), "err");
+      }
+    });
+
+    mintBtn.addEventListener("click", async () => {
+      if (!signer || !contract) return;
+      setStatus("Minting… please confirm in your wallet");
+      mintBtn.disabled = true;
+      try {
+        const address = await signer.getAddress();
+        const tx = await contract.mint(address);
+        setStatus("Tx sent: " + tx.hash.slice(0, 10) + "… (waiting for confirmation)");
+        const receipt = await tx.wait();
+        setStatus("Minted! Token in your wallet. Tx: " + receipt.transactionHash, "ok");
+        const supply = await contract.totalSupply();
+        supplyEl.textContent = "Minted: " + supply.toString() + " / 777";
+      } catch (err) {
+        setStatus(err.message || String(err), "err");
+      } finally {
+        mintBtn.disabled = false;
+      }
+    });
   </script>
 </body>
 </html>

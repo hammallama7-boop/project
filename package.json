@@ -1,5 +1,10 @@
 {
   "dependencies": {
+    "@openzeppelin/contracts": "^4.9.6",
     "axios": "^1.20.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.29.1"
   }
 }
