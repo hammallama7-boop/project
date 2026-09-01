@@ -2,6 +2,7 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.6",
     "axios": "^1.20.0",
+    "dotenv": "^17.4.2",
     "pngjs": "^7.0.0"
   },
   "devDependencies": {
@@ -12,8 +13,9 @@
     "gen:metadata": "node scripts/generateMetadata.js",
     "render:art": "node scripts/renderArt.js",
     "gen:assets": "node scripts/generateMetadata.js && node scripts/renderArt.js",
-    "pin:metadata": "node scripts/uploadToPinata.js",
+    "gen:uris": "node scripts/buildTokenUris.js",
+    "pin:metadata": "node scripts/buildTokenUris.js",
     "pin:images": "node scripts/pinImages.js",
-    "pin:all": "node scripts/pinImages.js && node scripts/uploadToPinata.js"
+    "pin:all": "node scripts/pinImages.js && node scripts/buildTokenUris.js"
   }
 }

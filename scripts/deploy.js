@@ -1,4 +1,5 @@
 const hre = require("hardhat");
+require("dotenv").config();
 
 async function main() {
   const [deployer] = await hre.ethers.getSigners();
@@ -11,7 +12,12 @@ async function main() {
   const address = await contract.getAddress();
   console.log("PixelCatworks deployed to:", address);
   console.log("Network chainId:", (await hre.ethers.provider.getNetwork()).chainId);
-  console.log("Set baseURI in the UI / contract as needed.");
+
+  console.log("\nNext steps:");
+  console.log(`  1. export CONTRACT_ADDRESS=${address}`);
+  console.log("  2. node scripts/uploadToPinata.js   # pin metadata, builds metadata-uris.json");
+  console.log("  3. node scripts/reveal.js --mint 777 # mint all + set per-token URIs");
+  console.log("  4. Put the address in frontend/index.html CONTRACT_ADDRESS");
 }
 
 main().catch((error) => {

@@ -1,0 +1,27 @@
+{
+  "name": "Pixel Cat #18",
+  "description": "Pixelated Catworks — a curated collection of 777 pixel-art cats on Robinhood Chain.",
+  "image": "ipfs://bafybeibd2tnbjwi5k3c4jxkbmflkreh47w4o2tvzmwlimadybgegpjkeqm/18.png",
+  "attributes": [
+    {
+      "trait_type": "Toes",
+      "value": "All 5"
+    },
+    {
+      "trait_type": "Injuries",
+      "value": "Stitches"
+    },
+    {
+      "trait_type": "Eye Color",
+      "value": "Blue"
+    },
+    {
+      "trait_type": "Fur Color",
+      "value": "Tuxedo"
+    },
+    {
+      "trait_type": "Accessories",
+      "value": "Collar"
+    }
+  ]
+}

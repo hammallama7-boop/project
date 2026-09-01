@@ -5,5 +5,4 @@ dist/
 artifacts/
 cache/
 typechain-types/
-metadata/generated/
 images/generated/

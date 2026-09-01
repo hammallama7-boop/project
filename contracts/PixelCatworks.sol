@@ -32,14 +32,20 @@ contract PixelCatworks is ERC721URIStorage, Ownable {
         return newTokenId;
     }
 
-    /// @notice Set the base URI for all token metadata.
+    /// @notice Set the base URI used as a fallback when no per-token URI is set.
     function setBaseURI(string memory _baseURIString) public onlyOwner {
         baseURI = _baseURIString;
     }
 
+    /// @notice Set an explicit metadata URI for one token. Per-token URIs take
+    ///         precedence over the base URI (see ERC721URIStorage).
+    function setTokenURI(uint256 tokenId, string memory uri) public onlyOwner {
+        require(_exists(tokenId), "Token does not exist");
+        _setTokenURI(tokenId, uri);
+    }
+
     /// @notice Returns the metadata URI for a given token id.
     function tokenURI(uint256 tokenId) public view override(ERC721URIStorage) returns (string memory) {
-        require(_exists(tokenId), "Token does not exist");
-        return string(abi.encodePacked(baseURI, "/metadata/", tokenId.toString(), ".json"));
+        return super.tokenURI(tokenId);
     }
 }
