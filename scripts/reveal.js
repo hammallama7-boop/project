@@ -24,9 +24,15 @@ async function main() {
     throw new Error("Set CONTRACT_ADDRESS in .env or the environment.");
   }
   const args = process.argv.slice(2);
-  const mintAll = args.includes("--mint");
+  const mintAll =
+    args.includes("--mint") || process.env.REVEAL_MINT === "1";
   const maxIdx = args.indexOf("--max");
-  const max = maxIdx >= 0 ? Number(args[maxIdx + 1]) : 777;
+  const max =
+    maxIdx >= 0
+      ? Number(args[maxIdx + 1])
+      : process.env.REVEAL_MAX
+      ? Number(process.env.REVEAL_MAX)
+      : 777;
 
   const uris = JSON.parse(
     fs.readFileSync(path.join(__dirname, "..", "metadata", "metadata-uris.json"), "utf8")
@@ -35,7 +41,7 @@ async function main() {
   const [deployer] = await hre.ethers.getSigners();
   const contract = await hre.ethers.getContractAt("PixelCatworks", CONTRACT_ADDRESS, deployer);
 
-  const supply = (await contract.totalSupply()).toNumber();
+  const supply = Number(await contract.totalSupply());
   console.log(`Contract ${CONTRACT_ADDRESS}`);
   console.log(`Deployer: ${deployer.address}`);
   console.log(`Minted so far: ${supply} / 777`);
@@ -57,18 +63,33 @@ async function main() {
   }
 
   tokens = tokens.slice(0, max);
-  console.log(`Setting tokenURIs for ${tokens.length} tokens…`);
+  // Resume: skip tokens that already have an explicit (http) URI set.
+  const pending = [];
+  for (const tokenId of tokens) {
+    let existing;
+    try {
+      existing = await contract.tokenURI(tokenId);
+    } catch (e) {
+      existing = "";
+    }
+    if (existing && existing.startsWith("http")) continue;
+    pending.push(tokenId);
+  }
+  if (pending.length < tokens.length) {
+    console.log(`Skipping ${tokens.length - pending.length} already-revealed tokens…`);
+  }
+  console.log(`Setting tokenURIs for ${pending.length} tokens…`);
 
   let done = 0;
-  for (const tokenId of tokens) {
+  for (const tokenId of pending) {
     const fileId = tokenId + 1;
     const uri = uris[fileId];
     if (!uri) throw new Error(`No metadata URI for token ${tokenId} (file ${fileId})`);
     const tx = await contract.setTokenURI(tokenId, uri);
     await tx.wait();
     done++;
-    if (done % 20 === 0 || done === tokens.length) {
-      console.log(`  revealed ${done}/${tokens.length}`);
+    if (done % 20 === 0 || done === pending.length) {
+      console.log(`  revealed ${done}/${pending.length}`);
     }
   }
   console.log("Reveal complete.");
