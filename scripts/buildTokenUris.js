@@ -1,32 +1,24 @@
-// Builds the per-token metadata URI map for a GitHub Pages-hosted metadata
-// folder. This replaces the Pinata metadata upload (free Pinata plans cap at
-// 500 total files; art already consumed the allowance).
-//
-// Metadata JSONs live in the repo at metadata/generated/<id>.json and are
-// served from GitHub Pages as:
-//   https://<owner>.github.io/<repo>/metadata/generated/<id>.json
+// Records the baseURI-based token metadata mapping for the 98-token collection.
+// The contract stores a single baseURI (GitHub Pages) and computes each
+// token's URI as: tokenURI(n) = baseURI + (n+1).json  (0-indexed ids, 1-indexed files)
 //
 // Usage:
 //   node scripts/buildTokenUris.js
-// Optional env: PAGES_BASE (defaults to the repo's Pages URL).
 //
 // Writes:
-//   metadata/metadata-uris.json  { byToken: { "1": "<url>", ... } }
+//   metadata/metadata-uris.json  { base, byToken: { "1": "<url>", ... } }
 
 const fs = require("fs");
 const path = require("path");
 require("dotenv").config();
 
-const TOTAL = 777;
-const PAGES_BASE =
-  process.env.PAGES_BASE || "https://hammallama7-boop.github.io/project";
+const TOTAL = 98;
+const BASE = "https://hammallama7-boop.github.io/project/metadata/generated/";
 
 async function main() {
   const metaDir = path.join(__dirname, "..", "metadata", "generated");
   if (!fs.existsSync(metaDir)) {
-    console.error(
-      "metadata/generated not found. Run scripts/generateMetadata.js first."
-    );
+    console.error("metadata/generated not found. Run scripts/generateMetadata.js first.");
     process.exit(1);
   }
 
@@ -38,22 +30,22 @@ async function main() {
       missing++;
       continue;
     }
-    byToken[id] = `${PAGES_BASE}/metadata/generated/${id}.json`;
+    // File id === tokenURI id. On-chain tokenId = id - 1.
+    byToken[id.toString()] = `${BASE}${id}.json`;
   }
   if (missing > 0) console.warn(`WARNING: missing ${missing} metadata files.`);
 
   fs.writeFileSync(
     path.join(__dirname, "..", "metadata", "metadata-uris.json"),
-    JSON.stringify({ base: PAGES_BASE, byToken, updatedAt: new Date().toISOString() }, null, 2)
+    JSON.stringify({ base: BASE, byToken, updatedAt: new Date().toISOString() }, null, 2)
   );
 
   console.log("Wrote metadata/metadata-uris.json");
   console.log(`Tokens mapped: ${Object.keys(byToken).length}`);
-  console.log("Sample tokenURIs (stored on-chain per token):");
-  console.log("  token 0:  ", byToken[1]);
-  console.log("  token 130:", byToken[131]);
-  console.log("  token 776:", byToken[777]);
-  console.log("\nReminder: enable GitHub Pages on the repo (Settings > Pages > Deploy from branch: main / root).");
+  console.log("tokenURI(0) =>", byToken[1]);
+  console.log("tokenURI(97) =>", byToken[98]);
+  console.log("\nContract baseURI:", BASE);
+  console.log("On-chain tokenURI(n) = baseURI + (n+1).json");
 }
 
 main().catch((e) => {

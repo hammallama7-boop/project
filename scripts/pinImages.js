@@ -21,7 +21,8 @@ require("dotenv").config();
 
 const JWT = process.env.PINATA_JWT;
 const BATCH_SIZE = 130;
-const TOTAL = 777;
+const { MAX_SUPPLY } = require("../metadata/traits.js");
+const TOTAL = MAX_SUPPLY;
 
 if (!JWT) {
   console.error("Missing PINATA_JWT. Add it to .env or the environment.");

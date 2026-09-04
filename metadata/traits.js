@@ -3,7 +3,7 @@
 // Rarity sampling picks combinations weighted by the product of trait weights,
 // then selects exactly MAX_SUPPLY distinct combinations.
 
-const MAX_SUPPLY = 777;
+const MAX_SUPPLY = 98;
 
 const TRAITS = [
   {

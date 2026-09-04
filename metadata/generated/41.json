@@ -1,7 +1,7 @@
 {
   "name": "Pixel Cat #41",
-  "description": "Pixelated Catworks — a curated collection of 777 pixel-art cats on Robinhood Chain.",
-  "image": "ipfs://bafybeibd2tnbjwi5k3c4jxkbmflkreh47w4o2tvzmwlimadybgegpjkeqm/41.png",
+  "description": "Pixelated Catworks — a curated collection of 98 pixel-art cats on Robinhood Chain.",
+  "image": "https://hammallama7-boop.github.io/project/images/generated/41.png",
   "attributes": [
     {
       "trait_type": "Toes",
@@ -13,11 +13,11 @@
     },
     {
       "trait_type": "Eye Color",
-      "value": "Heterochromia"
+      "value": "Red"
     },
     {
       "trait_type": "Fur Color",
-      "value": "Orange"
+      "value": "Calico"
     },
     {
       "trait_type": "Accessories",

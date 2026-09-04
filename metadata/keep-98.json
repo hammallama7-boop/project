@@ -1,0 +1,1080 @@
+[
+  {
+    "tokenId": 6,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "Gray",
+      "Accessories": "Glasses"
+    },
+    "rarity": 437500
+  },
+  {
+    "tokenId": 8,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Blue",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Glasses"
+    },
+    "rarity": 656250
+  },
+  {
+    "tokenId": 11,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Collar"
+    },
+    "rarity": 490000
+  },
+  {
+    "tokenId": 12,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Red",
+      "Fur Color": "Orange",
+      "Accessories": "Glasses"
+    },
+    "rarity": 937500
+  },
+  {
+    "tokenId": 17,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Red",
+      "Fur Color": "Black",
+      "Accessories": "Collar"
+    },
+    "rarity": 700000
+  },
+  {
+    "tokenId": 18,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Blue",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Collar"
+    },
+    "rarity": 735000
+  },
+  {
+    "tokenId": 25,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "None",
+      "Eye Color": "Red",
+      "Fur Color": "Black",
+      "Accessories": "Glasses"
+    },
+    "rarity": 750000
+  },
+  {
+    "tokenId": 43,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Red",
+      "Fur Color": "Calico",
+      "Accessories": "Collar"
+    },
+    "rarity": 500000
+  },
+  {
+    "tokenId": 45,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Blue",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Glasses"
+    },
+    "rarity": 367500
+  },
+  {
+    "tokenId": 59,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "Orange",
+      "Accessories": "Bow"
+    },
+    "rarity": 787500
+  },
+  {
+    "tokenId": 60,
+    "combo": {
+      "Toes": "Missing 2",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Yellow",
+      "Fur Color": "Tuxedo",
+      "Accessories": "None"
+    },
+    "rarity": 577500
+  },
+  {
+    "tokenId": 71,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Calico",
+      "Accessories": "Bow"
+    },
+    "rarity": 840000
+  },
+  {
+    "tokenId": 72,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "Calico",
+      "Accessories": "Collar"
+    },
+    "rarity": 280000
+  },
+  {
+    "tokenId": 98,
+    "combo": {
+      "Toes": "Missing 2",
+      "Injuries": "None",
+      "Eye Color": "Blue",
+      "Fur Color": "White",
+      "Accessories": "Glasses"
+    },
+    "rarity": 900000
+  },
+  {
+    "tokenId": 103,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "Gray",
+      "Accessories": "Collar"
+    },
+    "rarity": 875000
+  },
+  {
+    "tokenId": 104,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "Black",
+      "Accessories": "Glasses"
+    },
+    "rarity": 175000
+  },
+  {
+    "tokenId": 107,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "Tuxedo",
+      "Accessories": "None"
+    },
+    "rarity": 673750
+  },
+  {
+    "tokenId": 114,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Blue",
+      "Fur Color": "Calico",
+      "Accessories": "Glasses"
+    },
+    "rarity": 420000
+  },
+  {
+    "tokenId": 133,
+    "combo": {
+      "Toes": "Missing 2",
+      "Injuries": "None",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Gray",
+      "Accessories": "Glasses"
+    },
+    "rarity": 750000
+  },
+  {
+    "tokenId": 138,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Red",
+      "Fur Color": "Gray",
+      "Accessories": "Glasses"
+    },
+    "rarity": 875000
+  },
+  {
+    "tokenId": 141,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Glasses"
+    },
+    "rarity": 122500
+  },
+  {
+    "tokenId": 142,
+    "combo": {
+      "Toes": "Missing 2",
+      "Injuries": "Stitches",
+      "Eye Color": "Yellow",
+      "Fur Color": "Black",
+      "Accessories": "Bow"
+    },
+    "rarity": 112500
+  },
+  {
+    "tokenId": 154,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Black",
+      "Accessories": "Collar"
+    },
+    "rarity": 700000
+  },
+  {
+    "tokenId": 157,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Blue",
+      "Fur Color": "Calico",
+      "Accessories": "Collar"
+    },
+    "rarity": 600000
+  },
+  {
+    "tokenId": 170,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Red",
+      "Fur Color": "Calico",
+      "Accessories": "Collar"
+    },
+    "rarity": 560000
+  },
+  {
+    "tokenId": 193,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Black",
+      "Accessories": "Glasses"
+    },
+    "rarity": 625000
+  },
+  {
+    "tokenId": 194,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Blue",
+      "Fur Color": "Black",
+      "Accessories": "Glasses"
+    },
+    "rarity": 525000
+  },
+  {
+    "tokenId": 195,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Scar",
+      "Eye Color": "Red",
+      "Fur Color": "Calico",
+      "Accessories": "Glasses"
+    },
+    "rarity": 700000
+  },
+  {
+    "tokenId": 244,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Scar",
+      "Eye Color": "Red",
+      "Fur Color": "Black",
+      "Accessories": "Glasses"
+    },
+    "rarity": 875000
+  },
+  {
+    "tokenId": 249,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Red",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Collar"
+    },
+    "rarity": 490000
+  },
+  {
+    "tokenId": 254,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Red",
+      "Fur Color": "White",
+      "Accessories": "Collar"
+    },
+    "rarity": 500000
+  },
+  {
+    "tokenId": 260,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "Calico",
+      "Accessories": "None"
+    },
+    "rarity": 770000
+  },
+  {
+    "tokenId": 261,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "Gray",
+      "Accessories": "Bow"
+    },
+    "rarity": 656250
+  },
+  {
+    "tokenId": 277,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "None",
+      "Eye Color": "Red",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Bow"
+    },
+    "rarity": 787500
+  },
+  {
+    "tokenId": 284,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Bow"
+    },
+    "rarity": 183750
+  },
+  {
+    "tokenId": 286,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Red",
+      "Fur Color": "Black",
+      "Accessories": "Bow"
+    },
+    "rarity": 525000
+  },
+  {
+    "tokenId": 293,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Blue",
+      "Fur Color": "Calico",
+      "Accessories": "Glasses"
+    },
+    "rarity": 750000
+  },
+  {
+    "tokenId": 312,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Stitches",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "White",
+      "Accessories": "Collar"
+    },
+    "rarity": 500000
+  },
+  {
+    "tokenId": 313,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Collar"
+    },
+    "rarity": 875000
+  },
+  {
+    "tokenId": 326,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Yellow",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Glasses"
+    },
+    "rarity": 735000
+  },
+  {
+    "tokenId": 328,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "None",
+      "Eye Color": "Red",
+      "Fur Color": "Calico",
+      "Accessories": "Glasses"
+    },
+    "rarity": 600000
+  },
+  {
+    "tokenId": 338,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Red",
+      "Fur Color": "Calico",
+      "Accessories": "Glasses"
+    },
+    "rarity": 280000
+  },
+  {
+    "tokenId": 343,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Blue",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Glasses"
+    },
+    "rarity": 735000
+  },
+  {
+    "tokenId": 344,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "None",
+      "Eye Color": "Red",
+      "Fur Color": "Calico",
+      "Accessories": "Bow"
+    },
+    "rarity": 900000
+  },
+  {
+    "tokenId": 351,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Black",
+      "Accessories": "Bow"
+    },
+    "rarity": 525000
+  },
+  {
+    "tokenId": 368,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Blue",
+      "Fur Color": "Calico",
+      "Accessories": "Bow"
+    },
+    "rarity": 630000
+  },
+  {
+    "tokenId": 396,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Red",
+      "Fur Color": "Black",
+      "Accessories": "Bow"
+    },
+    "rarity": 468750
+  },
+  {
+    "tokenId": 406,
+    "combo": {
+      "Toes": "Missing 2",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Blue",
+      "Fur Color": "White",
+      "Accessories": "Collar"
+    },
+    "rarity": 300000
+  },
+  {
+    "tokenId": 408,
+    "combo": {
+      "Toes": "Missing 2",
+      "Injuries": "Scar",
+      "Eye Color": "Red",
+      "Fur Color": "White",
+      "Accessories": "None"
+    },
+    "rarity": 687500
+  },
+  {
+    "tokenId": 411,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "Orange",
+      "Accessories": "Glasses"
+    },
+    "rarity": 525000
+  },
+  {
+    "tokenId": 426,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "Black",
+      "Accessories": "Collar"
+    },
+    "rarity": 350000
+  },
+  {
+    "tokenId": 439,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Yellow",
+      "Fur Color": "Calico",
+      "Accessories": "Glasses"
+    },
+    "rarity": 840000
+  },
+  {
+    "tokenId": 440,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Blue",
+      "Fur Color": "Calico",
+      "Accessories": "Collar"
+    },
+    "rarity": 840000
+  },
+  {
+    "tokenId": 448,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Stitches",
+      "Eye Color": "Blue",
+      "Fur Color": "Calico",
+      "Accessories": "None"
+    },
+    "rarity": 825000
+  },
+  {
+    "tokenId": 463,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "White",
+      "Accessories": "Collar"
+    },
+    "rarity": 700000
+  },
+  {
+    "tokenId": 464,
+    "combo": {
+      "Toes": "Missing 2",
+      "Injuries": "None",
+      "Eye Color": "Red",
+      "Fur Color": "Calico",
+      "Accessories": "None"
+    },
+    "rarity": 660000
+  },
+  {
+    "tokenId": 465,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Black",
+      "Accessories": "Glasses"
+    },
+    "rarity": 350000
+  },
+  {
+    "tokenId": 467,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Calico",
+      "Accessories": "Bow"
+    },
+    "rarity": 420000
+  },
+  {
+    "tokenId": 468,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Scar",
+      "Eye Color": "Red",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Bow"
+    },
+    "rarity": 918750
+  },
+  {
+    "tokenId": 472,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Calico",
+      "Accessories": "Glasses"
+    },
+    "rarity": 560000
+  },
+  {
+    "tokenId": 474,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Red",
+      "Fur Color": "White",
+      "Accessories": "Bow"
+    },
+    "rarity": 937500
+  },
+  {
+    "tokenId": 504,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Red",
+      "Fur Color": "White",
+      "Accessories": "Glasses"
+    },
+    "rarity": 625000
+  },
+  {
+    "tokenId": 508,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Black",
+      "Accessories": "Glasses"
+    },
+    "rarity": 700000
+  },
+  {
+    "tokenId": 510,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Bow"
+    },
+    "rarity": 656250
+  },
+  {
+    "tokenId": 515,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Red",
+      "Fur Color": "White",
+      "Accessories": "Glasses"
+    },
+    "rarity": 700000
+  },
+  {
+    "tokenId": 527,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Blue",
+      "Fur Color": "Calico",
+      "Accessories": "Glasses"
+    },
+    "rarity": 840000
+  },
+  {
+    "tokenId": 529,
+    "combo": {
+      "Toes": "Missing 2",
+      "Injuries": "Scar",
+      "Eye Color": "Red",
+      "Fur Color": "Gray",
+      "Accessories": "Glasses"
+    },
+    "rarity": 156250
+  },
+  {
+    "tokenId": 535,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Calico",
+      "Accessories": "Glasses"
+    },
+    "rarity": 500000
+  },
+  {
+    "tokenId": 540,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Red",
+      "Fur Color": "Calico",
+      "Accessories": "Bow"
+    },
+    "rarity": 420000
+  },
+  {
+    "tokenId": 546,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "Calico",
+      "Accessories": "Bow"
+    },
+    "rarity": 210000
+  },
+  {
+    "tokenId": 554,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Bow"
+    },
+    "rarity": 735000
+  },
+  {
+    "tokenId": 568,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Calico",
+      "Accessories": "Glasses"
+    },
+    "rarity": 280000
+  },
+  {
+    "tokenId": 576,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Scar",
+      "Eye Color": "Red",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Glasses"
+    },
+    "rarity": 612500
+  },
+  {
+    "tokenId": 588,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Red",
+      "Fur Color": "Black",
+      "Accessories": "Glasses"
+    },
+    "rarity": 350000
+  },
+  {
+    "tokenId": 589,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "None",
+      "Eye Color": "Red",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Glasses"
+    },
+    "rarity": 525000
+  },
+  {
+    "tokenId": 592,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Red",
+      "Fur Color": "Black",
+      "Accessories": "Collar"
+    },
+    "rarity": 625000
+  },
+  {
+    "tokenId": 595,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Calico",
+      "Accessories": "Collar"
+    },
+    "rarity": 560000
+  },
+  {
+    "tokenId": 603,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Red",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Glasses"
+    },
+    "rarity": 245000
+  },
+  {
+    "tokenId": 612,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Blue",
+      "Fur Color": "Black",
+      "Accessories": "Glasses"
+    },
+    "rarity": 937500
+  },
+  {
+    "tokenId": 622,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Red",
+      "Fur Color": "Gray",
+      "Accessories": "Glasses"
+    },
+    "rarity": 781250
+  },
+  {
+    "tokenId": 636,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Red",
+      "Fur Color": "Black",
+      "Accessories": "Glasses"
+    },
+    "rarity": 312500
+  },
+  {
+    "tokenId": 641,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Gray",
+      "Accessories": "Glasses"
+    },
+    "rarity": 875000
+  },
+  {
+    "tokenId": 643,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "White",
+      "Accessories": "Bow"
+    },
+    "rarity": 525000
+  },
+  {
+    "tokenId": 652,
+    "combo": {
+      "Toes": "Missing 2",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Yellow",
+      "Fur Color": "Gray",
+      "Accessories": "Bow"
+    },
+    "rarity": 562500
+  },
+  {
+    "tokenId": 653,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Red",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Bow"
+    },
+    "rarity": 367500
+  },
+  {
+    "tokenId": 654,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Glasses"
+    },
+    "rarity": 437500
+  },
+  {
+    "tokenId": 655,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Ear Tipped",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Glasses"
+    },
+    "rarity": 490000
+  },
+  {
+    "tokenId": 661,
+    "combo": {
+      "Toes": "Missing 2",
+      "Injuries": "Scar",
+      "Eye Color": "Yellow",
+      "Fur Color": "Calico",
+      "Accessories": "Bow"
+    },
+    "rarity": 450000
+  },
+  {
+    "tokenId": 664,
+    "combo": {
+      "Toes": "Missing 1",
+      "Injuries": "Scar",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Calico",
+      "Accessories": "Bow"
+    },
+    "rarity": 750000
+  },
+  {
+    "tokenId": 679,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Collar"
+    },
+    "rarity": 245000
+  },
+  {
+    "tokenId": 696,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "White",
+      "Accessories": "Glasses"
+    },
+    "rarity": 350000
+  },
+  {
+    "tokenId": 701,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Glasses"
+    },
+    "rarity": 245000
+  },
+  {
+    "tokenId": 705,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Blue",
+      "Fur Color": "Black",
+      "Accessories": "Bow"
+    },
+    "rarity": 787500
+  },
+  {
+    "tokenId": 706,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Blue",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Bow"
+    },
+    "rarity": 551250
+  },
+  {
+    "tokenId": 725,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "Tuxedo",
+      "Accessories": "Bow"
+    },
+    "rarity": 367500
+  },
+  {
+    "tokenId": 732,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "Calico",
+      "Accessories": "Glasses"
+    },
+    "rarity": 140000
+  },
+  {
+    "tokenId": 734,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Heterochromia",
+      "Fur Color": "White",
+      "Accessories": "Glasses"
+    },
+    "rarity": 700000
+  },
+  {
+    "tokenId": 770,
+    "combo": {
+      "Toes": "All 5",
+      "Injuries": "Stitches",
+      "Eye Color": "Red",
+      "Fur Color": "Black",
+      "Accessories": "Bow"
+    },
+    "rarity": 262500
+  }
+]

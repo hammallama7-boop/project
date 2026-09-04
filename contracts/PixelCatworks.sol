@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -10,19 +10,24 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /// @notice ERC-721 NFT collection deployable on Robinhood Chain
 ///         (chain ID 4663 mainnet / 46630 testnet, an Arbitrum Orbit EVM L2).
 ///         No chain-specific contract changes required to deploy here.
-contract PixelCatworks is ERC721URIStorage, Ownable {
+contract PixelCatworks is ERC721, Ownable {
     using Counters for Counters.Counter;
     using Strings for uint256;
 
     Counters.Counter private _tokenIds;
 
-    uint256 public constant MAX_SUPPLY = 777;
+    uint256 public constant MAX_SUPPLY = 98;
     uint256 public constant PUBLIC_MINT_LIMIT = 3;
-    string private baseURI;
+    string public baseURI;
 
     mapping(address => uint256) private _publicMinted;
 
-    constructor() ERC721("PixelCatworks", "PCW") {}
+    constructor() ERC721("PixelCatworks", "PCW") {
+        // Metadata for all 98 tokens lives under this path on GitHub Pages.
+        // Files are 1-indexed (1..98) while token ids are 0-indexed, so
+        // tokenURI(tokenId) = baseURI + (tokenId+1).json
+        baseURI = "https://hammallama7-boop.github.io/project/metadata/generated/";
+    }
 
     /// @notice Total number of tokens minted so far.
     function totalSupply() public view returns (uint256) {
@@ -60,20 +65,11 @@ contract PixelCatworks is ERC721URIStorage, Ownable {
         return _publicMinted[who];
     }
 
-    /// @notice Set the base URI used as a fallback when no per-token URI is set.
-    function setBaseURI(string memory _baseURIString) public onlyOwner {
-        baseURI = _baseURIString;
-    }
-
-    /// @notice Set an explicit metadata URI for one token. Per-token URIs take
-    ///         precedence over the base URI (see ERC721URIStorage).
-    function setTokenURI(uint256 tokenId, string memory uri) public onlyOwner {
-        require(_exists(tokenId), "Token does not exist");
-        _setTokenURI(tokenId, uri);
-    }
-
     /// @notice Returns the metadata URI for a given token id.
-    function tokenURI(uint256 tokenId) public view override(ERC721URIStorage) returns (string memory) {
-        return super.tokenURI(tokenId);
+    ///         Metadata files are 1-indexed (metadata/generated/1.json ... 98.json)
+    ///         while token ids are 0-indexed, so we add 1.
+    function tokenURI(uint256 tokenId) public view virtual override(ERC721) returns (string memory) {
+        require(_exists(tokenId), "Token does not exist");
+        return string(abi.encodePacked(baseURI, (tokenId + 1).toString(), ".json"));
     }
 }

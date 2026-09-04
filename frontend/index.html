@@ -58,7 +58,7 @@
     <h1>Pixelated Catworks</h1>
     <p class="sub">Pixel Cats on Robinhood Chain testnet</p>
     <div class="cat">🐱</div>
-    <p id="supply">Supply: -- / 777</p>
+    <p id="supply">Supply: -- / 98</p>
     <button id="connectBtn">Connect Wallet</button>
     <button id="publicMintBtn" disabled>Claim a Free Pixel Cat</button>
     <button id="mintBtn" disabled>Owner Mint</button>
@@ -71,7 +71,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
   <script>
-    const CONTRACT_ADDRESS = "0x6cDC27eCc44EaB39F89a514dc2CD9d4A08a3c3fa";
+    const CONTRACT_ADDRESS = "0x421a4F078bC470bA1B05b0e59caa5b087DCbb880";
     // Must match the deployed contract ABI
     const CONTRACT_ABI = [
       "function mint(address to) public returns (uint256)",
@@ -138,7 +138,7 @@
         mintBtn.disabled = (owner.toLowerCase() !== address.toLowerCase());
 
         const supply = await contract.totalSupply();
-        supplyEl.textContent = "Minted: " + supply.toString() + " / 777";
+        supplyEl.textContent = "Minted: " + supply.toString() + " / 98";
       } catch (err) {
         setStatus(err.message || String(err), "err");
       }
@@ -157,7 +157,7 @@
         setStatus("Claimed a Pixel Cat! You have " + mine + "/3. Tx: " + receipt.hash, "ok");
         if (Number(mine) >= 3) publicMintBtn.disabled = true;
         const supply = await contract.totalSupply();
-        supplyEl.textContent = "Minted: " + supply.toString() + " / 777";
+        supplyEl.textContent = "Minted: " + supply.toString() + " / 98";
       } catch (err) {
         setStatus(err.message || String(err), "err");
         publicMintBtn.disabled = false;
@@ -175,7 +175,7 @@
         const receipt = await tx.wait();
         setStatus("Minted! Token in your wallet. Tx: " + receipt.transactionHash, "ok");
         const supply = await contract.totalSupply();
-        supplyEl.textContent = "Minted: " + supply.toString() + " / 777";
+        supplyEl.textContent = "Minted: " + supply.toString() + " / 98";
       } catch (err) {
         setStatus(err.message || String(err), "err");
       } finally {

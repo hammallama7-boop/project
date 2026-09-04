@@ -1,7 +1,7 @@
 {
   "name": "Pixel Cat #59",
-  "description": "Pixelated Catworks — a curated collection of 777 pixel-art cats on Robinhood Chain.",
-  "image": "ipfs://bafybeibd2tnbjwi5k3c4jxkbmflkreh47w4o2tvzmwlimadybgegpjkeqm/59.png",
+  "description": "Pixelated Catworks — a curated collection of 98 pixel-art cats on Robinhood Chain.",
+  "image": "https://hammallama7-boop.github.io/project/images/generated/59.png",
   "attributes": [
     {
       "trait_type": "Toes",
@@ -9,7 +9,7 @@
     },
     {
       "trait_type": "Injuries",
-      "value": "Stitches"
+      "value": "Scar"
     },
     {
       "trait_type": "Eye Color",
@@ -17,7 +17,7 @@
     },
     {
       "trait_type": "Fur Color",
-      "value": "Orange"
+      "value": "Tuxedo"
     },
     {
       "trait_type": "Accessories",
