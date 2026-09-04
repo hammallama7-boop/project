@@ -8,8 +8,9 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 /// @title PixelCatworks
 /// @notice ERC-721 NFT collection deployable on Robinhood Chain
-///         (chain ID 4663 mainnet / 46630 testnet, an Arbitrum Orbit EVM L2).
-///         No chain-specific contract changes required to deploy here.
+///         (chain ID 4663 mainnet / 46630 testnet).
+///         Owner can reserve inventory via mint(); the public can buy via
+///         paidMint() at a configurable price. Sale can be paused/unpaused.
 contract PixelCatworks is ERC721, Ownable {
     using Counters for Counters.Counter;
     using Strings for uint256;
@@ -17,15 +18,21 @@ contract PixelCatworks is ERC721, Ownable {
     Counters.Counter private _tokenIds;
 
     uint256 public constant MAX_SUPPLY = 98;
-    uint256 public constant PUBLIC_MINT_LIMIT = 3;
+    uint256 public constant PUBLIC_MINT_LIMIT = 3; // per-address purchase cap
     string public baseURI;
+    uint256 public price;                       // cost per token, in wei
+    bool public paused;
 
     mapping(address => uint256) private _publicMinted;
 
+    event Claimed(address indexed to, uint256 tokenId);
+    event PriceUpdated(uint256 price);
+    event Paused(bool paused);
+
     constructor() ERC721("PixelCatworks", "PCW") {
-        // Metadata for all 98 tokens lives under this path on GitHub Pages.
-        // Files are 1-indexed (1..98) while token ids are 0-indexed, so
-        // tokenURI(tokenId) = baseURI + (tokenId+1).json
+        // Metadata for all tokens lives under this path on GitHub Pages.
+        // Files are 1-indexed (1..MAX_SUPPLY) while token ids are 0-indexed,
+        // so tokenURI(tokenId) = baseURI + (tokenId+1).json
         baseURI = "https://hammallama7-boop.github.io/project/metadata/generated/";
     }
 
@@ -34,7 +41,8 @@ contract PixelCatworks is ERC721, Ownable {
         return _tokenIds.current();
     }
 
-    /// @notice Mint a new Pixel Cat. Only the contract owner can mint.
+    /// @notice Reserve a token for a buyer. Only the contract owner can mint.
+    ///         Use this to hand out reserved inventory without payment.
     function mint(address to) public onlyOwner returns (uint256) {
         require(_tokenIds.current() < MAX_SUPPLY, "All tokens have been minted");
 
@@ -45,9 +53,11 @@ contract PixelCatworks is ERC721, Ownable {
         return newTokenId;
     }
 
-    /// @notice Public free mint available to anyone. Each address may mint up
-    ///         to PUBLIC_MINT_LIMIT cats to try the collection.
-    function publicMint() public returns (uint256) {
+    /// @notice Purchase a Pixel Cat by sending `price` wei. Each address may buy
+    ///         up to PUBLIC_MINT_LIMIT cats. Skipped while paused.
+    function paidMint() public payable returns (uint256) {
+        require(!paused, "Sale paused");
+        require(msg.value == price, "Incorrect ETH amount");
         require(_publicMinted[msg.sender] < PUBLIC_MINT_LIMIT, "Mint limit reached for this address");
         require(_tokenIds.current() < MAX_SUPPLY, "All tokens have been minted");
 
@@ -57,12 +67,33 @@ contract PixelCatworks is ERC721, Ownable {
         _safeMint(msg.sender, newTokenId);
         _tokenIds.increment();
 
+        emit Claimed(msg.sender, newTokenId);
         return newTokenId;
     }
 
-    /// @notice How many public-mint cats an address has claimed.
+    /// @notice Number of tokens an address has purchased via paidMint.
     function publicMintedOf(address who) public view returns (uint256) {
         return _publicMinted[who];
+    }
+
+    /// @notice Set the mint price (wei). Only owner.
+    function setPrice(uint256 _price) public onlyOwner {
+        price = _price;
+        emit PriceUpdated(_price);
+    }
+
+    /// @notice Pause or unpause the public sale. Only owner.
+    function setPaused(bool _paused) public onlyOwner {
+        paused = _paused;
+        emit Paused(_paused);
+    }
+
+    /// @notice Withdraw collected sale proceeds. Only owner.
+    function withdraw() public onlyOwner {
+        uint256 balance = address(this).balance;
+        require(balance > 0, "No balance to withdraw");
+        (bool ok, ) = payable(owner()).call{value: balance}("");
+        require(ok, "Withdraw failed");
     }
 
     /// @notice Returns the metadata URI for a given token id.

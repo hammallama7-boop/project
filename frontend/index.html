@@ -59,9 +59,10 @@
     <p class="sub">Pixel Cats on Robinhood Chain testnet</p>
     <div class="cat">🐱</div>
     <p id="supply">Supply: -- / 98</p>
+    <p id="price" class="info">Price: --</p>
     <button id="connectBtn">Connect Wallet</button>
-    <button id="publicMintBtn" disabled>Claim a Free Pixel Cat</button>
-    <button id="mintBtn" disabled>Owner Mint</button>
+    <button id="publicMintBtn" disabled>Buy a Pixel Cat</button>
+    <button id="mintBtn" disabled>Owner Reserve Mint</button>
     <p id="status" class="status"></p>
     <p class="info">
       Network: Robinhood Chain Testnet (Chain ID 46630)<br>
@@ -71,15 +72,20 @@
 
   <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
   <script>
-    const CONTRACT_ADDRESS = "0x421a4F078bC470bA1B05b0e59caa5b087DCbb880";
+    const CONTRACT_ADDRESS = "0x1Cce598eF0EC4bB014C0B08DB95515833c8e10D2";
     // Must match the deployed contract ABI
     const CONTRACT_ABI = [
       "function mint(address to) public returns (uint256)",
-      "function publicMint() public returns (uint256)",
+      "function paidMint() public payable returns (uint256)",
       "function publicMintedOf(address) public view returns (uint256)",
       "function MAX_SUPPLY() public view returns (uint256)",
       "function totalSupply() public view returns (uint256)",
-      "function owner() public view returns (address)"
+      "function owner() public view returns (address)",
+      "function price() public view returns (uint256)",
+      "function paused() public view returns (bool)",
+      "function setPrice(uint256) public",
+      "function setPaused(bool) public",
+      "function withdraw() public"
     ];
 
     const TESTNET = {
@@ -96,6 +102,7 @@
     const publicMintBtn = document.getElementById("publicMintBtn");
     const mintBtn = document.getElementById("mintBtn");
     const supplyEl = document.getElementById("supply");
+    const priceEl = document.getElementById("price");
 
     let signer = null;
     let contract = null;
@@ -139,6 +146,10 @@
 
         const supply = await contract.totalSupply();
         supplyEl.textContent = "Minted: " + supply.toString() + " / 98";
+        const p = await contract.price();
+        priceEl.textContent = "Price: " + ethers.formatEther(p) + " ETH";
+        const isPaused = await contract.paused();
+        if (isPaused) publicMintBtn.disabled = true;
       } catch (err) {
         setStatus(err.message || String(err), "err");
       }
@@ -146,15 +157,16 @@
 
     publicMintBtn.addEventListener("click", async () => {
       if (!signer || !contract) return;
-      setStatus("Claiming… please confirm in your wallet");
+      const p = await contract.price();
+      setStatus("Buying… please confirm in your wallet");
       publicMintBtn.disabled = true;
       try {
-        const tx = await contract.publicMint();
+        const tx = await contract.paidMint({ value: p });
         setStatus("Tx sent: " + tx.hash.slice(0, 10) + "… (waiting for confirmation)");
         const receipt = await tx.wait();
         const address = await signer.getAddress();
         const mine = await contract.publicMintedOf(address);
-        setStatus("Claimed a Pixel Cat! You have " + mine + "/3. Tx: " + receipt.hash, "ok");
+        setStatus("Purchased a Pixel Cat! You have " + mine + "/3. Tx: " + receipt.hash, "ok");
         if (Number(mine) >= 3) publicMintBtn.disabled = true;
         const supply = await contract.totalSupply();
         supplyEl.textContent = "Minted: " + supply.toString() + " / 98";
