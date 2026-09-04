@@ -62,7 +62,6 @@
     <p id="price" class="info">Price: --</p>
     <button id="connectBtn">Connect Wallet</button>
     <button id="publicMintBtn" disabled>Buy a Pixel Cat</button>
-    <button id="mintBtn" disabled>Owner Reserve Mint</button>
     <p id="status" class="status"></p>
     <p class="info">
       Network: Robinhood Chain Testnet (Chain ID 46630)<br>
@@ -100,7 +99,6 @@
     const statusEl = document.getElementById("status");
     const connectBtn = document.getElementById("connectBtn");
     const publicMintBtn = document.getElementById("publicMintBtn");
-    const mintBtn = document.getElementById("mintBtn");
     const supplyEl = document.getElementById("supply");
     const priceEl = document.getElementById("price");
 
@@ -141,8 +139,6 @@
         setStatus("Connected: " + address.slice(0, 6) + "..." + address.slice(-4), "ok");
         connectBtn.disabled = true;
         publicMintBtn.disabled = false;
-        const owner = await contract.owner();
-        mintBtn.disabled = (owner.toLowerCase() !== address.toLowerCase());
 
         const supply = await contract.totalSupply();
         supplyEl.textContent = "Minted: " + supply.toString() + " / 98";
@@ -173,25 +169,6 @@
       } catch (err) {
         setStatus(err.message || String(err), "err");
         publicMintBtn.disabled = false;
-      }
-    });
-
-    mintBtn.addEventListener("click", async () => {
-      if (!signer || !contract) return;
-      setStatus("Minting… please confirm in your wallet");
-      mintBtn.disabled = true;
-      try {
-        const address = await signer.getAddress();
-        const tx = await contract.mint(address);
-        setStatus("Tx sent: " + tx.hash.slice(0, 10) + "… (waiting for confirmation)");
-        const receipt = await tx.wait();
-        setStatus("Minted! Token in your wallet. Tx: " + receipt.transactionHash, "ok");
-        const supply = await contract.totalSupply();
-        supplyEl.textContent = "Minted: " + supply.toString() + " / 98";
-      } catch (err) {
-        setStatus(err.message || String(err), "err");
-      } finally {
-        mintBtn.disabled = false;
       }
     });
   </script>
