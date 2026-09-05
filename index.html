@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pixelated Catworks — Metadata</title>
+  <title>Pixelated Catworks — Latest Mint</title>
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
@@ -17,36 +17,220 @@
       place-items: center;
       padding: 24px;
     }
-    main { max-width: 640px; text-align: center; }
+    main { max-width: 680px; width: 100%; text-align: center; }
     h1 { font-size: 30px; margin: 0 0 8px; }
     p { color: #9a9aa5; line-height: 1.6; }
     a { color: #8b6bf0; }
-    .cat { font-size: 56px; margin: 8px 0 12px; }
+
+    .window {
+      margin: 20px 0;
+      background: #17171c;
+      border: 1px solid #2c2c37;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .window-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: #1d1d24;
+      border-bottom: 1px solid #2c2c37;
+      font-size: 13px;
+      color: #b8b8c4;
+      text-align: left;
+    }
+    .dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; }
+    .dot.red { background:#ff5f56; }
+    .dot.yellow { background:#ffbd2e; }
+    .dot.green { background:#27c93f; }
+
+    .art-container { padding: 18px; }
+    .art-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      background: #101014;
+      image-rendering: pixelated;
+    }
+    .art-title { font-size: 20px; font-weight: 700; margin: 14px 0 4px; }
+    .art-sub { font-size: 14px; color: #9a9aa5; margin-bottom: 14px; }
+
+    .traits {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .trait {
+      background: #1d1d24;
+      border: 1px solid #2c2c37;
+      border-radius: 10px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .trait .t-name { font-size: 11px; color: #7f7f8c; text-transform: uppercase; letter-spacing: .04em; }
+    .trait .t-val { font-size: 14px; font-weight: 600; margin-top: 2px; }
+
+    .loading { padding: 40px 0; color: #9a9aa5; }
+    .err { color: #ff7070; }
+
     .meta {
-      margin-top: 20px;
+      margin-top: 18px;
       font-size: 13px;
       color: #6f6f7a;
       word-break: break-word;
+      text-align: left;
       background: #17171c;
       border: 1px solid #2a2a33;
       border-radius: 10px;
       padding: 14px;
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      overflow-x: auto;
     }
+    .controls { margin-top: 12px; display:flex; gap:10px; justify-content:center; flex-wrap: wrap; }
+    button {
+      background: #2a2a33;
+      color: #e8e8ec;
+      border: 1px solid #3a3a46;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    button:hover { background:#33333f; }
+    button:disabled { opacity:.5; cursor: not-allowed; }
   </style>
 </head>
 <body>
   <main>
-    <div class="cat">🐱</div>
-    <h1>Pixelated Catworks</h1>
-    <p>A curated collection of 777 pixel-art cats on Robinhood Chain.</p>
+    <h1>🐱 Pixelated Catworks</h1>
+    <p>A curated collection of 98 pixel-art cats on Robinhood Chain.<br>
+       <span id="supplyLine"></span></p>
+
+    <div class="window">
+      <div class="window-head">
+        <span>
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          Latest Minted Artwork
+        </span>
+        <span id="tokenLabel">…</span>
+      </div>
+      <div class="art-container" id="artContainer">
+        <div class="loading" id="loadingMsg">Loading latest artwork…</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="prevBtn">◀ Previous</button>
+      <button id="nextBtn">Next ▶</button>
+      <button id="freshBtn">↻ Refresh</button>
+    </div>
+
     <p>
       <a href="frontend/">Open the mint frontend</a>
     </p>
-    <div class="meta">
+
+    <div class="meta" id="metaBox">
       Metadata is served from this site for token on-chain URIs, e.g.<br>
       <a href="metadata/generated/1.json">/metadata/generated/1.json</a>
     </div>
   </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+  <script>
+    const CONTRACT_ADDRESS = "0x1Cce598eF0EC4bB014C0B08DB95515833c8e10D2";
+    const CONTRACT_ABI = [
+      "function totalSupply() public view returns (uint256)",
+      "function MAX_SUPPLY() public view returns (uint256)",
+      "function tokenURI(uint256) public view returns (string)"
+    ];
+    const RPC = "https://rpc.testnet.chain.robinhood.com";
+
+    const $ = (id) => document.getElementById(id);
+    const artContainer = $("artContainer");
+
+    let current = 0;        // 0-indexed token id currently displayed
+    let supply = 0;         // latest totalSupply
+
+    function ipfsHttp(uri) {
+      if (/^https?:\/\//.test(uri)) return uri;
+      if (uri.startsWith("ipfs://")) {
+        const rest = uri.slice("ipfs://".length);
+        const i = rest.indexOf("/");
+        const cid = i === -1 ? rest : rest.slice(0, i);
+        const path = i === -1 ? "" : rest.slice(i);
+        return "https://gateway.pinata.cloud/ipfs/" + cid + path;
+      }
+      return uri;
+    }
+
+    async function getSupply() {
+      const provider = new ethers.JsonRpcProvider(RPC);
+      const c = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
+      supply = Number(await c.totalSupply());
+      $("supplyLine").textContent = "Minted: " + supply + " / " + Number(await c.MAX_SUPPLY());
+      return supply;
+    }
+
+    function showTokens(tokenId) {
+      $("tokenLabel").textContent = "Showing token " + tokenId;
+    }
+
+    async function loadToken(tokenId) {
+      showTokens(tokenId);
+      const fileId = tokenId + 1;
+      const url = "metadata/generated/" + fileId + ".json";
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const meta = await res.json();
+        window.currentMeta = meta;
+
+        const mats = [];
+        for (const a of (meta.attributes || [])) {
+          mats.push('<div class="trait"><div class="t-name">' + a.trait_type + '</div><div class="t-val">' + a.value + '</div></div>');
+        }
+        artContainer.innerHTML =
+          '<img src="' + ipfsHttp(meta.image) + '" alt="' + meta.name + '" onerror="this.onerror=null;this.src=\'data:image/svg+xml;utf8,<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;256&quot; height=&quot;256&quot;><rect width=&quot;100%25&quot; height=&quot;100%25&quot; fill=&quot;%231d1d24&quot;/></svg>\';">' +
+          '<div class="art-title">' + meta.name + '</div>' +
+          '<div class="art-sub">' + (meta.description || "") + '</div>' +
+          '<div class="traits">' + mats.join("") + '</div>';
+
+        $("metaBox").innerHTML =
+          'Metadata served from this site for token on-chain URIs, e.g.<br>' +
+          '<a href="metadata/generated/' + fileId + '.json">/metadata/generated/' + fileId + '.json</a><br>' +
+          'tokenURI(' + tokenId + ') = ' + url;
+      } catch (err) {
+        artContainer.innerHTML = '<div class="err">Could not load token ' + tokenId + ': ' + (err.message || String(err)) + '</div>';
+      }
+    }
+
+    async function init() {
+      try {
+        await getSupply();
+      } catch (e) {
+        $("supplyLine").textContent = "Could not read contract supply";
+      }
+      // Show most recently minted artwork (supply-1); fall back to token 0.
+      const latest = supply > 0 ? supply - 1 : 0;
+      current = latest;
+      await loadToken(current);
+    }
+
+    $("prevBtn").addEventListener("click", () => {
+      if (current > 0) { current--; loadToken(current); }
+    });
+    $("nextBtn").addEventListener("click", () => {
+      current++;
+      loadToken(current);
+    });
+    $("freshBtn").addEventListener("click", async () => {
+      await getSupply();
+      await loadToken(current);
+    });
+
+    init();
+  </script>
 </body>
 </html>
