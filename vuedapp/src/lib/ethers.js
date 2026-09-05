@@ -70,22 +70,69 @@ export async function getState() {
 }
 
 // Purchase one token for `price` wei. Resolves with the minted tokenId.
+// Uses a raw eth_sendTransaction + receipt polling path to avoid ethers
+// TransactionResponse parsing, which crashes on this chain for pending txs.
 export async function purchase() {
-  if (!contract) throw new Error('Wallet not connected')
-  const priceWei = await contract.price()
-  const tx = await contract.paidMint({ value: priceWei })
-  const receipt = await tx.wait()
-  const event = receipt.logs
+  if (!signer) throw new Error('Wallet not connected')
+  const contractInstance = await readContract()
+  const from = await signer.getAddress()
+  const priceWei = await contractInstance.price()
+  const data = contractInstance.interface.encodeFunctionData('paidMint', [])
+
+  // Use our own read-only provider for gas estimate + fee data.
+  const rp = new ethers.JsonRpcProvider(CHAIN.rpcUrls[0], CHAIN.chainId)
+  const gasLimit = await rp.estimateGas({ from, to: CONTRACT_ADDRESS, data, value: priceWei })
+
+  const [history, gpRaw] = await Promise.all([
+    rp.send('eth_feeHistory', ['0x8', 'latest', []]),
+    rp.send('eth_gasPrice', []),
+  ])
+  let maxBase = 0n
+  for (const v of history.baseFeePerGas) {
+    const b = BigInt(v)
+    if (b > maxBase) maxBase = b
+  }
+  const spot = BigInt(gpRaw)
+  const tip = BigInt('1000000000') // 1 gwei priority fee
+  let maxFee = maxBase * 2n
+  if (maxFee < spot) maxFee = spot
+  if (maxFee < maxBase + tip) maxFee = maxBase + tip
+
+  const hex = (b) => '0x' + b.toString(16)
+  const hash = await window.ethereum.request({
+    method: 'eth_sendTransaction',
+    params: [{
+      from,
+      to: CONTRACT_ADDRESS,
+      data,
+      value: hex(priceWei),
+      gas: hex(gasLimit),
+      maxFeePerGas: hex(maxFee),
+      maxPriorityFeePerGas: hex(tip),
+    }],
+  })
+
+  // Raw receipt polling (never constructs ethers TransactionResponse).
+  let receipt = null
+  const deadline = Date.now() + 90000
+  while (!receipt && Date.now() < deadline) {
+    receipt = await rp.send('eth_getTransactionReceipt', [hash])
+    if (!receipt) await new Promise((r) => setTimeout(r, 1000))
+  }
+  if (!receipt) throw new Error('Timed out waiting for confirmation')
+  if (receipt.status !== '0x1') throw new Error('Transaction reverted on-chain')
+
+  const parsed = (receipt.logs || [])
     .map((l) => {
       try {
-        return contract.interface.parseLog(l)
+        return contractInstance.interface.parseLog(l)
       } catch {
         return null
       }
     })
     .find((p) => p && p.name === 'Claimed')
-  const tokenId = event ? Number(event.args.tokenId) : Number(await contract.totalSupply()) - 1
-  return tokenId
+  const tokenId = parsed ? Number(parsed.args.tokenId) : Number(await contractInstance.totalSupply()) - 1
+  return { hash, tokenId }
 }
 
 // Convert ipfs://CID/path to an https gateway URL for browser display.

@@ -153,21 +153,64 @@
 
     publicMintBtn.addEventListener("click", async () => {
       if (!signer || !contract) return;
-      const p = await contract.price();
-      setStatus("Buying… please confirm in your wallet");
+      setStatus("Preparing purchase…");
       publicMintBtn.disabled = true;
       try {
-        const tx = await contract.paidMint({ value: p });
-        setStatus("Tx sent: " + tx.hash.slice(0, 10) + "… (waiting for confirmation)");
-        const receipt = await tx.wait();
-        const address = await signer.getAddress();
-        const mine = await contract.publicMintedOf(address);
-        setStatus("Purchased a Pixel Cat! You have " + mine + "/3. Tx: " + receipt.hash, "ok");
+        const from = await signer.getAddress();
+        const priceWei = await contract.price();
+        const data = contract.interface.encodeFunctionData("paidMint", []);
+
+        // Use our own RPC provider for gas estimate + fee data (bypasses wallet fee pipeline).
+        const rp = new ethers.JsonRpcProvider(RPC, 4663);
+        const gasLimit = await rp.estimateGas({ from, to: CONTRACT_ADDRESS, data, value: priceWei });
+
+        // maxFeePerGas = 2x the highest recent base fee, tip 1 gwei, never below spot gas price.
+        const [history, gpRaw] = await Promise.all([
+          rp.send("eth_feeHistory", ["0x8", "latest", []]),
+          rp.send("eth_gasPrice", [])
+        ]);
+        let maxBase = 0n;
+        for (const v of history.baseFeePerGas) { const b = BigInt(v); if (b > maxBase) maxBase = b; }
+        const spot = BigInt(gpRaw);
+        const tip = BigInt("1000000000");
+        let maxFee = maxBase * 2n;
+        if (maxFee < spot) maxFee = spot;
+        if (maxFee < maxBase + tip) maxFee = maxBase + tip;
+
+        setStatus("Please confirm the transaction in your wallet");
+        const hex = (b) => "0x" + b.toString(16);
+        // eth_sendTransaction returns just the tx hash (no TransactionResponse construction).
+        const hash = await window.ethereum.request({
+          method: "eth_sendTransaction",
+          params: [{
+            from,
+            to: CONTRACT_ADDRESS,
+            data,
+            value: hex(priceWei),
+            gas: hex(gasLimit),
+            maxFeePerGas: hex(maxFee),
+            maxPriorityFeePerGas: hex(tip)
+          }]
+        });
+        setStatus("Tx sent: " + hash.slice(0, 10) + "… (pending)");
+
+        // Poll the receipt via raw JSON-RPC (never parse a pending tx object).
+        let receipt = null;
+        const deadline = Date.now() + 90000;
+        while (!receipt && Date.now() < deadline) {
+          receipt = await rp.send("eth_getTransactionReceipt", [hash]);
+          if (!receipt) await new Promise((r) => setTimeout(r, 1000));
+        }
+        if (!receipt) throw new Error("Timed out waiting for confirmation");
+        if (receipt.status !== "0x1") throw new Error("Transaction reverted on-chain");
+
+        const mine = await contract.publicMintedOf(from);
+        setStatus("Purchased a Pixel Cat! You have " + mine + "/3. Tx: " + hash, "ok");
         if (Number(mine) >= 3) publicMintBtn.disabled = true;
         const supply = await contract.totalSupply();
         supplyEl.textContent = "Minted: " + supply.toString() + " / 98";
       } catch (err) {
-        setStatus(err.message || String(err), "err");
+        setStatus((err.shortMessage || err.message || String(err)).split("\n")[0], "err");
         publicMintBtn.disabled = false;
       }
     });

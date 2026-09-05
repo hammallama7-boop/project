@@ -76,7 +76,7 @@ async function handleBuy() {
   buying.value = true
   setMessage('Buying… please confirm in your wallet')
   try {
-    const tokenId = await purchase()
+    const { tokenId, hash } = await purchase()
     setMessage('Purchased token ' + tokenId + '! Fetching artwork…', 'ok')
     const meta = await fetchTokenMetadata(tokenId)
     purchasedToken.value = meta
