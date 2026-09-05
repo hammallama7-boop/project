@@ -100,6 +100,27 @@
     }
     button:hover { background:#33333f; }
     button:disabled { opacity:.5; cursor: not-allowed; }
+
+    .mint-link {
+      display: inline-block;
+      font-size: 112px;           /* 7x ~16px base */
+      font-weight: 900;
+      letter-spacing: .02em;
+      text-decoration: none;
+      margin: 24px 0 8px;
+      line-height: 1.1;
+      -webkit-text-stroke: 2px rgba(0,0,0,.45);
+      animation: rainbow 3s linear infinite;
+    }
+    @keyframes rainbow {
+      0%   { color: #ff0000; }
+      16%  { color: #ffaa00; }
+      33%  { color: #ffff00; }
+      50%  { color: #00cc44; }
+      66%  { color: #0099ff; }
+      83%  { color: #6633ff; }
+      100% { color: #ff0000; }
+    }
   </style>
 </head>
 <body>
@@ -127,9 +148,7 @@
       <button id="freshBtn">↻ Refresh</button>
     </div>
 
-    <p>
-      <a href="frontend/">Open the mint frontend</a>
-    </p>
+    <a class="mint-link" href="frontend/">OPEN MINT</a>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
