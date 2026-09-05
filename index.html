@@ -153,13 +153,13 @@
 
   <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
   <script>
-    const CONTRACT_ADDRESS = "0x1Cce598eF0EC4bB014C0B08DB95515833c8e10D2";
+    const CONTRACT_ADDRESS = "0x001d50Fc09F34691C1EE71FF8ED411a81d2d70ba";
     const CONTRACT_ABI = [
       "function totalSupply() public view returns (uint256)",
       "function MAX_SUPPLY() public view returns (uint256)",
       "function tokenURI(uint256) public view returns (string)"
     ];
-    const RPC = "https://rpc.testnet.chain.robinhood.com";
+    const RPC = "https://rpc.mainnet.chain.robinhood.com";
 
     const $ = (id) => document.getElementById(id);
     const artContainer = $("artContainer");

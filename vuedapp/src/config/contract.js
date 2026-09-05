@@ -1,12 +1,12 @@
 // Contract + network config for the deployed PixelCatworks sale contract.
-export const CONTRACT_ADDRESS = '0x1Cce598eF0EC4bB014C0B08DB95515833c8e10D2'
+export const CONTRACT_ADDRESS = '0x001d50Fc09F34691C1EE71FF8ED411a81d2d70ba'
 
 export const CHAIN = {
-  chainId: 46630,
-  chainIdHex: '0xB626',
-  chainName: 'Robinhood Chain Testnet',
-  rpcUrls: ['https://rpc.testnet.chain.robinhood.com'],
-  nativeCurrency: { name: 'Test ETH', symbol: 'ETH', decimals: 18 },
+  chainId: 4663,
+  chainIdHex: '0x1237',
+  chainName: 'Robinhood Chain Mainnet',
+  rpcUrls: ['https://rpc.mainnet.chain.robinhood.com'],
+  nativeCurrency: { name: 'Ethereum', symbol: 'ETH', decimals: 18 },
 }
 
 export const CONTRACT_ABI = [
