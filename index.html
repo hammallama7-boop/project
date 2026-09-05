@@ -130,11 +130,6 @@
     <p>
       <a href="frontend/">Open the mint frontend</a>
     </p>
-
-    <div class="meta" id="metaBox">
-      Metadata is served from this site for token on-chain URIs, e.g.<br>
-      <a href="metadata/generated/1.json">/metadata/generated/1.json</a>
-    </div>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
@@ -196,11 +191,6 @@
           '<div class="art-title">' + meta.name + '</div>' +
           '<div class="art-sub">' + (meta.description || "") + '</div>' +
           '<div class="traits">' + mats.join("") + '</div>';
-
-        $("metaBox").innerHTML =
-          'Metadata served from this site for token on-chain URIs, e.g.<br>' +
-          '<a href="metadata/generated/' + fileId + '.json">/metadata/generated/' + fileId + '.json</a><br>' +
-          'tokenURI(' + tokenId + ') = ' + url;
       } catch (err) {
         artContainer.innerHTML = '<div class="err">Could not load token ' + tokenId + ': ' + (err.message || String(err)) + '</div>';
       }
