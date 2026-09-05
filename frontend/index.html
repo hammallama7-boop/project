@@ -111,7 +111,8 @@
     }
 
     async function switchToMainnet() {
-      if (!window.ethereum) throw new Error("No wallet detected (MetaMask or Robinhood Wallet required)");
+      if (!window.ethereum) throw new Error("No wallet detected (Rabby Wallet required)");
+      if (!window.ethereum.isRabby) throw new Error("Rabby Wallet required — please install Rabby Wallet and use it for this site");
       try {
         await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId: MAINNET.chainIdHex }] });
       } catch (err) {

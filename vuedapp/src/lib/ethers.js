@@ -5,13 +5,18 @@ let provider = null
 let signer = null
 let contract = null
 
+function assertRabbyWallet() {
+  if (!window.ethereum) throw new Error('No wallet detected (Rabby Wallet required)')
+  if (!window.ethereum.isRabby) throw new Error('Rabby Wallet required — please install Rabby Wallet and use it for this site')
+}
+
 function getProvider() {
-  if (!window.ethereum) throw new Error('No wallet detected (MetaMask or Robinhood Wallet required)')
+  assertRabbyWallet()
   return new ethers.BrowserProvider(window.ethereum)
 }
 
 export async function ensureChain() {
-  if (!window.ethereum) throw new Error('No wallet detected (MetaMask or Robinhood Wallet required)')
+  assertRabbyWallet()
   try {
     await window.ethereum.request({
       method: 'wallet_switchEthereumChain',
