@@ -1,0 +1,27 @@
+{
+  "name": "Magic Internet Artwork #87",
+  "description": "Magic Internet Artworks \u2014 a series of 98 procedurally generated pixel artworks on the O: drive. Each piece depicts one living subject with five character traits.",
+  "image": "magic-internet-artwork-0087.png",
+  "attributes": [
+    {
+      "trait_type": "Subject",
+      "value": "Maple"
+    },
+    {
+      "trait_type": "Style",
+      "value": "Neon Edge"
+    },
+    {
+      "trait_type": "Palette",
+      "value": "Tide"
+    },
+    {
+      "trait_type": "Backdrop",
+      "value": "Rolling Waves"
+    },
+    {
+      "trait_type": "Detail",
+      "value": "Tiny Crown"
+    }
+  ]
+}

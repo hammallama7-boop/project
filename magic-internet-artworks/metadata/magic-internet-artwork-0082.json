@@ -1,0 +1,27 @@
+{
+  "name": "Magic Internet Artwork #82",
+  "description": "Magic Internet Artworks \u2014 a series of 98 procedurally generated pixel artworks on the O: drive. Each piece depicts one living subject with five character traits.",
+  "image": "magic-internet-artwork-0082.png",
+  "attributes": [
+    {
+      "trait_type": "Subject",
+      "value": "Dandelion"
+    },
+    {
+      "trait_type": "Style",
+      "value": "Scanline"
+    },
+    {
+      "trait_type": "Palette",
+      "value": "Berry"
+    },
+    {
+      "trait_type": "Backdrop",
+      "value": "Marsh Reeds"
+    },
+    {
+      "trait_type": "Detail",
+      "value": "Feather Trim"
+    }
+  ]
+}
