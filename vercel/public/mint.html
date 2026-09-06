@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Magic Internet Artworks — Mint on Base</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0d0d12;
+      color: #e8e8ec;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+    .card { max-width: 440px; width: 100%; background: #17171c; border: 1px solid #2a2a33; border-radius: 16px; padding: 22px; }
+    h1 { margin: 0 0 4px; font-size: 24px; }
+    .sub { color: #9a9aa5; margin: 0 0 14px; font-size: 14px; }
+    img.preview { width: 100%; border-radius: 12px; image-rendering: pixelated; background:#101014; }
+    .traits { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 12px 0; }
+    .trait { background: #1d1d24; border: 1px solid #2c2c37; border-radius: 8px; padding: 6px 8px; text-align: center; }
+    .t-name { font-size: 10px; color: #7f7f8c; text-transform: uppercase; letter-spacing: .04em; }
+    .t-val { font-size: 13px; font-weight: 600; }
+    button { width: 100%; padding: 12px; font-size: 16px; border: none; border-radius: 10px; cursor: pointer; background: #0052FF; color: #fff; margin-top: 8px; }
+    button:hover { background: #1a66ff; }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    .status { margin-top: 12px; font-size: 14px; min-height: 20px; color: #9a9aa5; word-break: break-word; }
+    .status.ok { color: #62e6a0; }
+    .status.err { color: #ff7b7b; }
+    .info { font-size: 12px; color: #6f6f7a; margin-top: 12px; line-height: 1.6; }
+    a { color: #8b6bf0; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Magic Internet Artworks</h1>
+    <p class="sub">98 pixel artworks · <b>Base mainnet</b> · 0.0003 ETH</p>
+    <img id="preview" class="preview" alt="latest artwork">
+    <div id="traits" class="traits"></div>
+    <p class="info" id="supply">Supply: -- / 98 · Price: 0.0003 ETH</p>
+    <button id="connectBtn">Connect Wallet</button>
+    <button id="mintBtn" disabled>Buy a Magic Internet Artwork</button>
+    <p id="status" class="status"></p>
+    <p class="info">Connect your Farcaster wallet (Rabby, MetaMask, or
+       <a href="https://warpcast.com/~/inbox" target="_blank" rel="noopener">Warpcast's mobile wallet</a>)
+       to mint directly on Base.</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+  <script>
+    const CONTRACT_ADDRESS = "0x001d50Fc09F34691C1EE71FF8ED411a81d2d70ba";
+    const RPC = "https://mainnet.base.org";
+    const BASE = {
+      chainId: 8453,
+      chainIdHex: "0x2105",
+      chainName: "Base",
+      rpcUrls: ["https://mainnet.base.org"],
+      nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+      blockExplorerUrls: ["https://basescan.org"]
+    };
+    const CONTRACT_ABI = [
+      "function paidMint() public payable returns (uint256)",
+      "function MAX_SUPPLY() public view returns (uint256)",
+      "function totalSupply() public view returns (uint256)",
+      "function price() public view returns (uint256)",
+      "function paused() public view returns (bool)"
+    ];
+
+    const $ = (id) => document.getElementById(id);
+    let signer, contract;
+
+    async function showLatestOr() {
+      try {
+        const rp = new ethers.JsonRpcProvider(RPC, BASE.chainId);
+        const rc = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, rp);
+        const supply = Number(await rc.totalSupply());
+        const price = ethers.formatEther(await rc.price());
+        $("supply").textContent = "Supply: " + supply + " / 98 · Price: " + price + " ETH";
+        const file = (supply > 0 ? supply : 0) + 1;
+        const res = await fetch("https://hammallama7-boop.github.io/project/magic-internet-artworks/metadata/" + file + ".json");
+        const meta = await res.json();
+        $("preview").src = meta.image;
+        $("traits").innerHTML = (meta.attributes || []).map((a) =>
+          '<div class="trait"><div class="t-name">' + a.trait_type + '</div><div class="t-val">' + a.value + '</div></div>').join("");
+      } catch (e) { $("preview").alt = "Preview unavailable"; }
+    }
+
+    async function connect() {
+      if (!window.ethereum) throw new Error("No wallet detected. Open this page in a browser wallet (Rabby, MetaMask) or the Farcaster client.");
+      try {
+        await window.ethereum.request({ method: "wallet_switchEthereumChain", params: [{ chainId: BASE.chainIdHex }] });
+      } catch (err) {
+        if (err.code === 4902) await window.ethereum.request({ method: "wallet_addEthereumChain", params: [BASE] });
+        else throw err;
+      }
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      signer = await provider.getSigner();
+      contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+      const network = await provider.getNetwork();
+      if (Number(network.chainId) !== BASE.chainId) throw new Error("Please switch to Base");
+      const addr = await signer.getAddress();
+      $("status").textContent = "Connected: " + addr.slice(0, 6) + "..." + addr.slice(-4);
+      $("status").className = "status ok";
+      $("connectBtn").disabled = true;
+      $("mintBtn").disabled = false;
+      const paused = await contract.paused();
+      if (paused) $("mintBtn").disabled = true;
+    }
+
+    $("connectBtn").addEventListener("click", async () => {
+      try { await connect(); } catch (e) { setErr(e); }
+    });
+
+    $("mintBtn").addEventListener("click", async () => {
+      $("mintBtn").disabled = true;
+      $("status").textContent = "Preparing purchase…";
+      $("status").className = "status";
+      try {
+        const from = await signer.getAddress();
+        const priceWei = await contract.price();
+        const data = contract.interface.encodeFunctionData("paidMint", []);
+        const rp = new ethers.JsonRpcProvider(RPC, BASE.chainId);
+        const gasLimit = await rp.estimateGas({ from, to: CONTRACT_ADDRESS, data, value: priceWei });
+        const [history, gpRaw] = await Promise.all([
+          rp.send("eth_feeHistory", ["0x8", "latest", []]),
+          rp.send("eth_gasPrice", [])
+        ]);
+        let maxBase = 0n;
+        for (const v of history.baseFeePerGas) { const b = BigInt(v); if (b > maxBase) maxBase = b; }
+        const spot = BigInt(gpRaw);
+        const tip = BigInt("1000000000");
+        let maxFee = maxBase * 2n;
+        if (maxFee < spot) maxFee = spot;
+        if (maxFee < maxBase + tip) maxFee = maxBase + tip;
+        const hex = (b) => "0x" + b.toString(16);
+        $("status").textContent = "Confirm in your wallet…";
+        const hash = await window.ethereum.request({
+          method: "eth_sendTransaction",
+          params: [{ from, to: CONTRACT_ADDRESS, data, value: hex(priceWei), gas: hex(gasLimit),
+                     maxFeePerGas: hex(maxFee), maxPriorityFeePerGas: hex(tip) }]
+        });
+        $("status").textContent = "Tx sent: " + hash.slice(0, 10) + "… (pending)";
+        let receipt = null;
+        const deadline = Date.now() + 90000;
+        while (!receipt && Date.now() < deadline) {
+          receipt = await rp.send("eth_getTransactionReceipt", [hash]);
+          if (!receipt) await new Promise((r) => setTimeout(r, 1000));
+        }
+        if (!receipt) throw new Error("Timed out waiting for confirmation");
+        if (receipt.status !== "0x1") throw new Error("Transaction reverted on-chain");
+        $("status").textContent = "Minted! Tx: " + hash + " · View on Basescan: https://basescan.org/tx/" + hash;
+        $("status").className = "status ok";
+        await showLatestOr();
+      } catch (e) {
+        setErr(e);
+        $("mintBtn").disabled = false;
+      }
+    });
+
+    function setErr(e) {
+      $("status").textContent = (e.shortMessage || e.message || String(e)).split("\n")[0];
+      $("status").className = "status err";
+    }
+
+    showLatestOr();
+  </script>
+</body>
+</html>

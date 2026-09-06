@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "functions": {
+    "api/tx.js": { "runtime": "nodejs20.x" }
+  },
+  "routes": [
+    { "src": "/api/tx", "dest": "/api/tx.js", "methods": ["POST", "OPTIONS"] },
+    { "handle": "filesystem" }
+  ]
+}
