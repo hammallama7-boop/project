@@ -1,0 +1,27 @@
+{
+  "name": "Magic Internet Artwork #70",
+  "description": "Magic Internet Artworks — a series of 98 procedurally generated pixel artworks on the O: drive. Each piece depicts one living subject with five character traits.",
+  "image": "https://hammallama7-boop.github.io/project/magic-internet-artworks/artwork/magic-internet-artwork-0070.png",
+  "attributes": [
+    {
+      "trait_type": "Subject",
+      "value": "Ladybug"
+    },
+    {
+      "trait_type": "Style",
+      "value": "Split Shade"
+    },
+    {
+      "trait_type": "Palette",
+      "value": "Dusk"
+    },
+    {
+      "trait_type": "Backdrop",
+      "value": "Jungle Canopy"
+    },
+    {
+      "trait_type": "Detail",
+      "value": "Diamond Droplet"
+    }
+  ]
+}
