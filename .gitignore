@@ -1,5 +1,6 @@
 node_modules/
 .env
+frames-server/.env
 dist/
 *.log
 artifacts/
