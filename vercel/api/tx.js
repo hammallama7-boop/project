@@ -4,11 +4,9 @@
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "POST only" });
 
-  const CONTRACT = process.env.BASE_CONTRACT;
+  const CONTRACT = process.env.BASE_CONTRACT || "0x001d50Fc09F34691C1EE71FF8ED411a81d2d70ba";
   const PRICE_WEI = process.env.PRICE_WEI || "300000000000000"; // 0.0003 ETH
   const CHAIN_ID = "eip155:8453";
-
-  if (!CONTRACT) return res.status(503).json({ error: "BASE_CONTRACT not configured" });
 
   const calldata = "0xf0238a11"; // paidMint()
 
