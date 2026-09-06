@@ -29,6 +29,13 @@ app.use((req, res, next) => {
   next();
 });
 
+// --- Root serves the Base Farcaster frame page (instead of the cat viewer) ---
+// Registered BEFORE express.static so it wins for "/".
+app.get("/", (req, res) => {
+  const framePage = path.join(STATIC_ROOT, "magic-internet-artworks", "frame-base", "index.html");
+  res.sendFile(framePage);
+});
+
 // --- Static files (viewer, artwork, frame pages, everything in repo) ---
 app.use(express.static(STATIC_ROOT));
 
